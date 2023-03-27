@@ -26,6 +26,9 @@ public class SmallString {
 			if(instruction == Instruction.CHARACTER) {
 				this.generated+=this.generator[i].getCharacter();
 				i+=1;
+				if(i>=10) {
+					return false;
+				}
 			}
 			else if(instruction==Instruction.JUMP) {
 				Integer jump = this.generator[i].getJumpDest();

@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 public class SmallStringStorage {
 
 	private MemoryStorage memstore;
+	public static volatile Long lockedPage=(long) -1;
 
 	SmallStringStorage() {
 		System.out.println(
@@ -100,12 +101,29 @@ public class SmallStringStorage {
 				} else if (choice == 3) {
 					System.out.println("Give me the numerical identifier for the page:"); // TODO: avoid race
 					Long id = this.readLong();
-					this.memstore.unloadPage(id);
-					System.out.println("Page unloaded");
+					if(id==this.lockedPage) {
+						System.out.println("Sorry, cannot unload page while checker is running.");
+					}else {
+						this.memstore.unloadPage(id);
+						System.out.println("Page unloaded");
+					}
 				} else if (choice == 4) {
 					this.memstore.syncWithDisk();
 				} else if (choice == 5) {
-
+					if(this.lockedPage!=-1) {
+						System.out.println("Sorry, another checker is currently running. Only one per time.");
+					}else {
+						System.out.println("Give me the numerical identifier for the page:");
+						Long id = this.readLong();
+						Page p = this.memstore.getPage(id);
+						if(p==null) {
+							System.out.println("Page not found");
+						}else {
+							this.lockedPage=id;
+							Checker c = new Checker(this.memstore, id);
+							c.start();
+						}
+					}
 				} else if (choice == 6) {
 					System.out.println("I hope you enjoyed our PoC!");
 					System.exit(0);
@@ -160,8 +178,12 @@ public class SmallStringStorage {
 					if (s == null) {
 						System.out.println("String not found");
 					} else {
-						s.calculateString();
-						System.out.println("Generator executed");
+						Boolean res = s.calculateString();
+						if(res) {
+							System.out.println("Generator executed");
+						}else {
+							System.out.println("Generator failed to execute");
+						}
 					}
 				} else if (choice == 6) {
 					return;
