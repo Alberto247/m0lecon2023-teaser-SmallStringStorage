@@ -86,9 +86,13 @@ public class SmallStringStorage {
 				if (choice == 1) {
 					System.out.println("Give me a numerical identifier for the page:");
 					Long id = this.readLong();
-					Page p = new Page(id);
-					this.memstore.storePage(p);
-					System.out.println("Page succesfully created in memory, write to backend to store permanently.");
+					if(id<0) {
+						System.out.println("Please provide a positive ID");
+					}else {
+						Page p = new Page(id);
+						this.memstore.storePage(p);
+						System.out.println("Page succesfully created in memory, write to backend to store permanently.");
+					}
 				} else if (choice == 2) {
 					System.out.println("Give me a numerical identifier for the page:");
 					Long id = this.readLong();
