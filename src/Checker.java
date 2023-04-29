@@ -17,9 +17,12 @@ public class Checker extends Thread {
 			SmallString s=memstore.getPage(pageId).getSmallString(i);
 			if(s!=null) {
 				String check = s.getString();
-				System.out.println(check);
 				if(check.equals("i swear it's possible!")) {
-					System.out.println("Checker found string! Here is your flag! ptm{flagbellissima}");
+					String flag = System.getenv("FLAG");
+					if(flag==null) {
+						flag="ptm{test}";
+					}
+					System.out.println("Checker found string! Here is your flag! "+flag);
 					found=true;
 				}
 			}

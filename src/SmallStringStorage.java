@@ -6,6 +6,7 @@ public class SmallStringStorage {
 
 	private MemoryStorage memstore;
 	public static volatile Long lockedPage=(long) -1;
+	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
 	SmallStringStorage() {
 		System.out.println(
@@ -22,7 +23,6 @@ public class SmallStringStorage {
 	public int readInt() {
 		String intStr = "0";
 		System.out.print("> ");
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			intStr = reader.readLine();
 		} catch (IOException e) {
@@ -41,7 +41,6 @@ public class SmallStringStorage {
 	public Long readLong() {
 		String intStr = "0";
 		System.out.print("> ");
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			intStr = reader.readLine();
 		} catch (IOException e) {
@@ -59,7 +58,6 @@ public class SmallStringStorage {
 	public char readChar() {
 		String intStr = "0";
 		System.out.print("> ");
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			intStr = reader.readLine();
 		} catch (IOException e) {
